@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+                    <Manager pathname="" />
+                    -->
+    <!-- Uncomment this to enable Comet connection tacking (provides events
+                         on session expiration as well as webapp lifecycle) -->
+    <!--
+                    <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
+                    -->
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+    <Valve className="com.gopivotal.manager.SessionFlushValve"/>
+    <Manager className="org.apache.catalina.session.PersistentManager">
+        <Store className="com.gopivotal.manager.redis.RedisStore" connectionPoolSize="${redis-session-manager-auth.connectionPoolSize}" database="${redis-session-manager-auth.databaseIndex}" host="${redis-session-manager-auth.host}" password="${redis-session-manager-auth.password}" port="${redis-session-manager-auth.port}" timeout="${redis-session-manager-auth.poolTimeout}"/>
+    </Manager>
+    <Valve className="com.gopivotal.manager.SessionFlushValve"/>
+    <Manager className="org.apache.catalina.session.PersistentManager">
+        <Store className="com.gopivotal.manager.redis.RedisStore" connectionPoolSize="${redis-session-manager.connectionPoolSize}" database="${redis-session-manager.databaseIndex}" host="${redis-session-manager.host}" port="${redis-session-manager.port}" timeout="${redis-session-manager.poolTimeout}"/>
+    </Manager>
+</Context>
